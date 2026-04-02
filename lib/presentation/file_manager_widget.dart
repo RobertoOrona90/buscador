@@ -1,7 +1,8 @@
 import 'dart:io';
-
 import 'package:buscador/helpers/path_helper.dart';
+import 'package:buscador/presentation/file_manager_btn_accept.dart';
 import 'package:buscador/presentation/folder_selector_button.dart';
+import 'package:buscador/presentation/label_input_multiline.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -102,35 +103,14 @@ class _FileManagerWidgetState extends State<FileManagerWidget> {
               ],
               const SizedBox(height: 16.0),
               // Leyenda
-              labelInputMultiline(),
+              LabelInputMultiline(),
               const SizedBox(height: 16.0),
               // Input de texto multilinea
               inputMultiline(),
               const SizedBox(height: 16.0),
               // Botón Aceptar
-              btnAccept(),
+             FileManagerBtnAccept(onPress: _moveFiles)
             ];
-  }
- 
-
-  ElevatedButton btnAccept() {
-    return ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 14.0),
-                ),
-                onPressed: _moveFiles,
-                child: const Text('Aceptar'),
-              );
-  }
-
-  Text labelInputMultiline() {
-    return const Text(
-                'Seleccione la carpeta y agregue los archivos que desee buscar',
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-                textAlign: TextAlign.center,
-              );
   }
 
   TextField inputMultiline() {
