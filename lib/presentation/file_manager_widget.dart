@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:buscador/helpers/path_helper.dart';
+import 'package:buscador/presentation/folder_selector_button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
@@ -160,19 +162,11 @@ class _FileManagerWidgetState extends State<FileManagerWidget> {
                   Text(
                     _selectedSourceFolderPath == null
                         ? 'Origen: no seleccionado'
-                        : 'Origen: ${_folderNameFromPath(_selectedSourceFolderPath)}',
+                        : 'Origen: ${PathHelper.folderNameFromPath(_selectedSourceFolderPath)}',
                     style: TextStyle(fontSize: 14.0, color: Colors.grey.shade700),
                   ),
                   const SizedBox(height: 8.0),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14.0),
-                    ),
-                    onPressed: _selectSourceFolder,
-                    child: const Text('Seleccionar carpeta origen'),
-                  ),
+                  FolderSelectorButton(isLoading: _isLoading, onSelect: _selectSourceFolder), 
                 ],
               ),
             ),
@@ -184,19 +178,11 @@ class _FileManagerWidgetState extends State<FileManagerWidget> {
                   Text(
                     _selectedDestinationFolderPath == null
                         ? 'Destino: no seleccionado'
-                        : 'Destino: ${_folderNameFromPath(_selectedDestinationFolderPath)}',
+                        : 'Destino: ${PathHelper.folderNameFromPath(_selectedDestinationFolderPath)}',
                     style: TextStyle(fontSize: 14.0, color: Colors.grey.shade700),
                   ),
                   const SizedBox(height: 8.0),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14.0),
-                    ),
-                    onPressed: _selectDestinationFolder,
-                    child: const Text('Seleccionar carpeta destino'),
-                  ),
+                  FolderSelectorButton(isLoading: _isLoading, onSelect: _selectDestinationFolder)
                 ],
               ),
             ),
@@ -204,12 +190,6 @@ class _FileManagerWidgetState extends State<FileManagerWidget> {
         ),
       ],
     );
-  }
-
-  String _folderNameFromPath(String? path) {
-    if (path == null || path.isEmpty) return 'no seleccionado';
-    final segments = path.split(RegExp(r'[\\/]+'));
-    return segments.isNotEmpty ? segments.last : path;
   }
 
   Widget copyStructureCheckbox() {
@@ -267,7 +247,7 @@ class _FileManagerWidgetState extends State<FileManagerWidget> {
 
         for (var entity in entities) {
           if (entity is File) {
-            final String fileName = _folderNameFromPath(entity.path);
+            final String fileName =  PathHelper.folderNameFromPath(entity.path);
             final String baseName = fileName.contains('.') 
                 ? fileName.substring(0, fileName.lastIndexOf('.'))
                 : fileName;
