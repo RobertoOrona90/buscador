@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:buscador/helpers/path_helper.dart';
+import 'package:buscador/presentation/file_input_field.dart';
 import 'package:buscador/presentation/file_manager_btn_accept.dart';
 import 'package:buscador/presentation/folder_selector_button.dart';
 import 'package:buscador/presentation/label_input_multiline.dart';
@@ -106,25 +107,11 @@ class _FileManagerWidgetState extends State<FileManagerWidget> {
               LabelInputMultiline(),
               const SizedBox(height: 16.0),
               // Input de texto multilinea
-              inputMultiline(),
+              FileInputField(controller: _textController),
               const SizedBox(height: 16.0),
               // Botón Aceptar
              FileManagerBtnAccept(onPress: _moveFiles)
             ];
-  }
-
-  TextField inputMultiline() {
-    return TextField(
-                controller: _textController,
-                maxLines: 5,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  hintText: 'Ingrese los archivos...',
-                  contentPadding: const EdgeInsets.all(12.0),
-                ),
-              );
   }
 
   Widget selectedFolder() {
