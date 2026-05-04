@@ -4,8 +4,10 @@ import 'package:buscador/presentation/file_input_field.dart';
 import 'package:buscador/presentation/file_manager_btn_accept.dart';
 import 'package:buscador/presentation/folder_selector_button.dart';
 import 'package:buscador/presentation/label_input_multiline.dart';
+import 'package:buscador/helpers/dn_modals.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FileManagerWidget extends StatefulWidget {
   const FileManagerWidget({super.key});
@@ -20,6 +22,51 @@ class _FileManagerWidgetState extends State<FileManagerWidget> {
   bool _isLoading = false;
   bool _copyFolderStructure = false;
   final TextEditingController _textController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _showWelcomeDialog());
+  }
+
+  Future<void> _showWelcomeDialog() async {
+    await DnModals(context: context).showDialogWidget(
+      barrierDismissible: false,
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Bienvenido',
+              style: GoogleFonts.montserrat(
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey.shade800,
+              ),
+            ),
+            const SizedBox(height: 12.0),
+            Text(
+              'Selecciona las carpetas de origen y destino, ingresa los nombres de los archivos y presiona Aceptar para moverlos.',
+              style: GoogleFonts.montserrat(
+                fontSize: 14.0,
+                color: Colors.grey.shade600,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24.0),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Comenzar'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -79,7 +126,38 @@ class _FileManagerWidgetState extends State<FileManagerWidget> {
       color: Colors.grey.shade300,
       padding: const EdgeInsets.all(24.0),
       child: Center(
-        child: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Buscador',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.grey.shade800,
+                      decoration: TextDecoration.none,
+                    ),
+                  ),
+                  Text(
+                    'Pro Max',
+                    style: GoogleFonts.montserrat(
+                      fontSize: 28.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade800,
+                      decoration: TextDecoration.none,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            Card(
           elevation: 4.0,
           child: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -89,6 +167,8 @@ class _FileManagerWidgetState extends State<FileManagerWidget> {
               children: childrenCard(context),
             ),
           ),
+        ),
+          ],
         ),
       ),
     );
